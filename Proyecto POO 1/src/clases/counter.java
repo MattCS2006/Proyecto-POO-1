@@ -12,6 +12,7 @@ import java.util.Calendar;
  * @author Rafael
  */
 public class counter {
+
     private String nombre;
     private int cedula;
     private String direccion;
@@ -20,29 +21,30 @@ public class counter {
     private estado_casillero estado;
     private ArrayList<casillero> casilleros = new ArrayList();
     private ArrayList<cliente> clientes = new ArrayList();
-    
+
     /**
-     * 
+     *
      */
-    public counter(){
-        
+    public counter() {
+
     }
+
     /**
-     * 
+     *
      * @param nombre
      * @param cedula
      * @param direccion
-     * @param cantidad_casilleros 
+     * @param cantidad_casilleros
      */
-    public counter(String nombre,int cedula,String direccion, int cantidad_casilleros){
+    public counter(String nombre, int cedula, String direccion, int cantidad_casilleros) {
         this.nombre = nombre;
         this.cedula = cedula;
         this.direccion = direccion;
         this.cantidad_casilleros = cantidad_casilleros;
-        
+
     }
-    
-    public String getNombre(){
+
+    public String getNombre() {
         return nombre;
     }
 
@@ -110,26 +112,22 @@ public class counter {
     public String toString() {
         return "counter{" + "nombre=" + nombre + ", cedula=" + cedula + ", direccion=" + direccion + ", cantidad_casilleros=" + cantidad_casilleros + ", ultimo_casillero=" + ultimo_casillero + ", estado=" + estado + ", casilleros=" + casilleros + ", clientes=" + clientes + '}';
     }
-    
-    public String agregar_cliente(int id, String nombre, String correo, String telefono, String direccion, tipo_sexo sexo, Calendar fechaNacimiento){
-        for(cliente cli: clientes){
-            if (cli.getId()==id){
+
+    public String agregar_cliente(int id, String nombre, String correo, String telefono, String direccion, tipo_sexo sexo, Calendar fechaNacimiento) {
+        for (cliente cli : clientes) {
+            if (cli.getId() == id) {
                 return "ERROR. EL ID DEL CLIENTE YA EXISTE. ";
-               
-            }
-            else if(!telefono.matches("\\d+") || telefono.length() != 8){
+
+            } else if (!telefono.matches("\\d+") || telefono.length() != 8) {
                 return "ERROR. EL TELEFONO NO TIENE EL FORMATO CORRECTO. ";
-            }
-            else if(false){
+            } else if (false) {
                 return "ERROR. EL CORREO NO ES VALIDO";
             }
         }
         cliente cli = new cliente(id, nombre, correo, telefono, direccion, sexo, fechaNacimiento);
         clientes.add(cli);
-        
+
         return null;
     }
-    
-    
-    
+
 }
