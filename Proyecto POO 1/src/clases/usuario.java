@@ -55,4 +55,16 @@ public class usuario {
     public void setCliente(cliente cliente) {
         this.cliente = cliente;
     }
+
+    //Metodos
+    public void consultarEntregablesPendientes() {
+        if (cliente != null) {
+            System.out.println("Entregables pendientes en su casillero:");
+            for (entregable entregable : cliente.getCasillero().getEntregables()) {
+                System.out.println(entregable);
+            }
+        } else {
+            System.out.println("No hay cliente asociado.");
+        }
+    }
 }

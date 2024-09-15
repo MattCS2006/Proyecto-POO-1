@@ -5,6 +5,8 @@
 package Proyecto_POO;
 
 import clases.*;
+import java.util.Calendar;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -16,20 +18,6 @@ public class ProyectoPOO1RafaAndresSantiagoMattew {
     public static void main(String[] args) {
         login login = new login();
         try (Scanner scanner = new Scanner(System.in)) {
-
-            // Crear algunos clientes de ejemplo
-            cliente cliente1 = new cliente();
-            cliente1.setId(1);
-            cliente1.setNombre("Cliente 1");
-
-            cliente cliente2 = new cliente();
-            cliente2.setId(2);
-            cliente2.setNombre("Cliente 2");
-
-            // Agregar algunos usuarios y administradores
-            login.addUser("user1", "password1", usuario.Rol.USUARIO, "", cliente1);
-            login.addUser("admin1", "password2", usuario.Rol.ADMINISTRADOR, "87654321", null);
-
             boolean running = true;
             while (running) {
                 System.out.println("Bienvenido al sistema de login");
@@ -56,11 +44,36 @@ public class ProyectoPOO1RafaAndresSantiagoMattew {
                         } else {
                             // Crear un nuevo cliente para el usuario
                             nuevoCliente = new cliente();
-                            System.out.print("Ingrese el ID del cliente: ");
-                            nuevoCliente.setId(scanner.nextInt());
-                            scanner.nextLine(); // Consumir la nueva línea
-                            System.out.print("Ingrese el nombre del cliente: ");
+                            Random random = new Random();
+                            nuevoCliente.setId(random.nextInt(1000)); // Asignar un ID aleatorio
+
+                            System.out.print("Ingrese su nombre: ");
                             nuevoCliente.setNombre(scanner.nextLine());
+                            System.out.print("Ingrese su correo: ");
+                            nuevoCliente.setCorreo(scanner.nextLine());
+                            System.out.print("Ingrese su telefono: ");
+                            nuevoCliente.setTelefono(scanner.nextLine());
+                            System.out.print("Ingrese su direccion: ");
+                            nuevoCliente.setDireccion(scanner.nextLine());
+                            System.out.print("Ingrese su sexo (M/F/NE): ");
+                            String sexoInput = scanner.nextLine();
+                            tipo_sexo sexo;
+                            if (sexoInput.equalsIgnoreCase("M")) {
+                                sexo = tipo_sexo.MASCULINO;
+                            } else if (sexoInput.equalsIgnoreCase("F")) {
+                                sexo = tipo_sexo.FEMENINO;
+                            } else {
+                                sexo = tipo_sexo.NOESPECIFICADO;
+                            }
+                            nuevoCliente.setSexo(sexo);
+                            System.out.print("Ingrese su fecha de nacimiento (yyyy-mm-dd): ");
+                            String[] fechaNacimientoInput = scanner.nextLine().split("-");
+                            Calendar fechaNacimiento = Calendar.getInstance();
+                            fechaNacimiento.set(Integer.parseInt(fechaNacimientoInput[0]), Integer.parseInt(fechaNacimientoInput[1]) - 1, Integer.parseInt(fechaNacimientoInput[2]));
+                            nuevoCliente.setFechaNacimiento(fechaNacimiento);
+
+                            // Asignar un casillero al cliente
+                            nuevoCliente.setCasillero(new casillero());
                         }
 
                         if (login.addUser(username, password, rol, claveAdminInput, nuevoCliente)) {
@@ -84,7 +97,7 @@ public class ProyectoPOO1RafaAndresSantiagoMattew {
                             } else {
                                 System.out.println("Usted ha iniciado sesion como usuario.");
                                 System.out.println("Cliente asociado: " + usuario.getCliente().getNombre());
-                                mostrarMenuUsuario(scanner);
+                                mostrarMenuUsuario(scanner, usuario);
                             }
                         } else {
                             System.out.println("Nombre de usuario o contraseña incorrectos.");
@@ -128,20 +141,22 @@ public class ProyectoPOO1RafaAndresSantiagoMattew {
         }
     }
 
-    private static void mostrarMenuUsuario(Scanner scanner) {
+    private static void mostrarMenuUsuario(Scanner scanner, usuario usuario) {
         boolean userRunning = true;
         while (userRunning) {
             System.out.println("Menu de Usuario:");
-            System.out.println("1. Opcion de usuario 1");
+            System.out.println("1. Consultar entregables pendientes");
             System.out.println("2. Opcion de usuario 2");
             System.out.println("3. Cerrar sesion");
             System.out.print("Seleccione una opcion: ");
             String opcion = scanner.nextLine();
 
             switch (opcion) {
-                case "1" ->
-                    System.out.println("Ejecutando opcion de usuario 1...");
-                // Lógica para la opción de usuario 1
+                case "1" -> {
+                    System.out.println("Consultando entregables pendientes...");
+                    usuario.consultarEntregablesPendientes();
+                    break;
+                }
                 case "2" ->
                     System.out.println("Ejecutando opcion de usuario 2...");
                 // Lógica para la opción de usuario 2

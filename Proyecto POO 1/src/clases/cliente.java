@@ -12,10 +12,6 @@ import java.util.Calendar;
  */
 public class cliente {
 
-    public enum tipo_sexo {
-        MASCULINO, FEMENINO, NOESPECIFICADO
-    }
-
     private int id;
     private String nombre;
     private String correo;
@@ -23,12 +19,13 @@ public class cliente {
     private String direccion;
     private tipo_sexo sexo;
     private Calendar fechaNacimiento;
+    private casillero casillero;
 
     // Constructores
     public cliente() {
     }
 
-    public cliente(int id, String nombre, String correo, String telefono, String direccion, tipo_sexo sexo, Calendar fechaNacimiento) {
+    public cliente(int id, String nombre, String correo, String telefono, String direccion, tipo_sexo sexo, Calendar fechaNacimiento, casillero casillero) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -36,6 +33,7 @@ public class cliente {
         this.direccion = direccion;
         this.sexo = sexo;
         this.fechaNacimiento = fechaNacimiento;
+        this.casillero = casillero;
     }
 
     // Getters y Setters
@@ -93,5 +91,13 @@ public class cliente {
 
     public void setFechaNacimiento(Calendar fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public casillero getCasillero() {
+        return casillero;
+    }
+
+    public void setCasillero(casillero casillero) {
+        this.casillero = casillero;
     }
 }

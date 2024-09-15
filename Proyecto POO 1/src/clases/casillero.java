@@ -65,7 +65,7 @@ public class casillero {
 
     //metodos
     // Método para agregar un paquete a la colección
-    public void addEntregable(entregable entregable) {
-        this.entregables.add(entregable);
+    public void agregarEntregable(entregable entregable) {
+        entregables.add(entregable);
     }
 }

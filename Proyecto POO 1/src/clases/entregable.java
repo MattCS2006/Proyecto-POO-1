@@ -58,4 +58,6 @@ public class entregable {
     public void setRemitente(String remitente) {
         this.remitente = remitente;
     }
+
+    //Metodos
 }
