@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class login {
 
-    private Map<String, usuario> users;
+    private final Map<String, usuario> users;
     private static final String CLAVE_ADMIN = "87654321";
 
     public login() {
