@@ -6,6 +6,10 @@ package clases;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.mail.Session;
+import java.util.Properties;
 
 /**
  *
@@ -67,5 +71,41 @@ public class casillero {
     // Método para agregar un paquete a la colección
     public void agregarEntregable(entregable entregable) {
         entregables.add(entregable);
+    }
+
+    private void enviarNotificacion(entregable entregable) {
+        String to = cliente.getCorreo(); // Correo del cliente
+        String from = "masanroje06@gmail.com"; // Correo del remitente
+        String host = "smtp.gmail.com"; // Servidor de correo
+
+        // Propiedades del sistema
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", host);
+
+        // Obtener la sesión por defecto
+        Session session = Session.getDefaultInstance(properties);
+
+        try {
+            // Crear un objeto MimeMessage por defecto
+            MimeMessage message = new MimeMessage(session);
+
+            // Asignar el remitente
+            message.setFrom(new InternetAddress(from));
+
+            // Asignar el destinatario
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            // Asignar el asunto del correo
+            message.setSubject("Nuevo entregable recibido");
+
+            // Asignar el cuerpo del mensaje
+            message.setText("Se ha recibido un nuevo entregable: " + entregable.getNombre());
+
+            // Enviar el mensaje
+            Transport.send(message);
+            System.out.println("Notificación enviada correctamente...");
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
     }
 }
