@@ -50,4 +50,26 @@ public class paquete extends entregable {
     public void setPeso(double peso) {
         this.peso = peso;
     }
+
+    // Método para calcular el precio del paquete basado en las reglas especificadas
+    public double calcularPrecio() {
+        double precioBasePorKg = 0.02; // Precio base por kilogramo según las reglas
+        double costoElectronico = 2.0; // Costo adicional si contiene electrónicos
+        double costoFragil = 2.0; // Costo adicional si es frágil
+
+        // Calculo base basado en el peso
+        double precioFinal = this.peso * precioBasePorKg;
+
+        // Sumar costo adicional si contiene un artículo electrónico
+        if (this.contieneElectronico) {
+            precioFinal += costoElectronico;
+        }
+
+        // Sumar costo adicional si el paquete es frágil
+        if (this.fragil) {
+            precioFinal += costoFragil;
+        }
+
+        return precioFinal;
+    }
 }
