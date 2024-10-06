@@ -14,7 +14,7 @@ import java.util.Calendar;
 public class counter {
 
     private String nombre;
-    private int cedula;
+    private String cedula;
     private String direccion;
     private int cantidad_casilleros;
     private int ultimo_casillero = 1000;
@@ -36,7 +36,7 @@ public class counter {
      * @param direccion
      * @param cantidad_casilleros
      */
-    public counter(String nombre, int cedula, String direccion, int cantidad_casilleros) {
+    public counter(String nombre, String cedula, String direccion, int cantidad_casilleros) {
         this.nombre = nombre;
         this.cedula = cedula;
         this.direccion = direccion;
@@ -48,7 +48,7 @@ public class counter {
         return nombre;
     }
 
-    public int getCedula() {
+    public String getCedula() {
         return cedula;
     }
 
@@ -80,7 +80,7 @@ public class counter {
         this.nombre = nombre;
     }
 
-    public void setCedula(int cedula) {
+    public void setCedula(String cedula) {
         this.cedula = cedula;
     }
 
@@ -130,4 +130,23 @@ public class counter {
         return null;
     }
 
+    /*
+    public void mostrarClientes() {
+        if (clientes.isEmpty()) {
+            System.out.println("No hay clientes registrados.");
+        } else {
+            for (cliente c : clientes) {
+                System.out.println("ID: " + c.getId());
+                System.out.println("Nombre: " + c.getNombre());
+                System.out.println("Correo: " + c.getCorreo());
+                System.out.println("Teléfono: " + c.getTelefono());
+                System.out.println("Dirección: " + c.getDireccion());
+                System.out.println("Sexo: " + c.getSexo());
+                System.out.println("Fecha de Nacimiento: " + c.getFechaNacimiento());
+                System.out.println("Casillero: " + c.getCasillero());
+                System.out.println("---------------------------------");
+            }
+        }
+    }
+        */
 }

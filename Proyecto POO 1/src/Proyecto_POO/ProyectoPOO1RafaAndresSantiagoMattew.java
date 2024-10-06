@@ -6,6 +6,8 @@ package Proyecto_POO;
 
 import clases.*;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -14,9 +16,14 @@ import java.util.Scanner;
  * @author masan
  */
 public class ProyectoPOO1RafaAndresSantiagoMattew {
-
+    
+    public static final Map<String, counter> counters = new HashMap<>();
+    public static final Map<Integer, cliente> clientes = new HashMap<>();
+    static login login = new login();
+    
     public static void main(String[] args) {
-        login login = new login();
+
+        //Map<String, counter> counters = new HashMap<>();
         try (Scanner scanner = new Scanner(System.in)) {
             boolean running = true;
             while (running) {
@@ -118,19 +125,41 @@ public class ProyectoPOO1RafaAndresSantiagoMattew {
         boolean adminRunning = true;
         while (adminRunning) {
             System.out.println("Menu de Administrador:");
-            System.out.println("1. Opcion de administrador 1");
-            System.out.println("2. Opcion de administrador 2");
+            System.out.println("1. Crear counter");
+            System.out.println("2. Gestionar Clientes");
             System.out.println("3. Cerrar sesion");
             System.out.print("Seleccione una opcion: ");
             String opcion = scanner.nextLine();
 
             switch (opcion) {
-                case "1" ->
-                    System.out.println("Ejecutando opcion de administrador 1...");
-                // Lógica para la opción de administrador 1
-                case "2" ->
-                    System.out.println("Ejecutando opcion de administrador 2...");
-                // Lógica para la opción de administrador 2
+                case "1" -> {
+                    counter nuevoCounter = null;
+                    nuevoCounter = new counter();
+                    System.out.println("Ejecutando opcion de Creacion de counter");
+                    System.out.println("Ingrese el nombre del Counter: ");
+                    String nombre = scanner.nextLine();
+
+                    System.out.println("Ingrese la cedula del Counter: ");
+                    String cedula = scanner.nextLine();
+
+                    System.out.println("Ingrese la direccion del Counter: ");
+                    String direccion = scanner.nextLine();
+
+                    System.out.println("Ingrese la cantidad de casilleros del Counter: ");
+                    int cantCasilleros = scanner.nextInt();
+                    
+                    if (counters.containsKey(cedula) == false) {
+                        counters.put(cedula, new counter(nombre, cedula, direccion, cantCasilleros));
+                        System.out.println("Counter agregado con éxito.");
+                    } else {
+                        System.out.println("Counter con esa cédula ya existe.");
+                    }
+                    nuevoCounter.toString();
+                }
+                case "2" -> {
+                    System.out.println("Ejecutando opcion de Gestion de Clientes");
+                    menuGestionClientes(scanner);
+                }
                 case "3" -> {
                     adminRunning = false;
                     System.out.println("Cerrando sesion de administrador...");
@@ -166,6 +195,122 @@ public class ProyectoPOO1RafaAndresSantiagoMattew {
                 }
                 default ->
                     System.out.println("Opcion no reconocida.");
+            }
+        }
+    }
+
+    private static void menuGestionClientes(Scanner scanner) {
+        boolean adminRunning = true;
+        while(adminRunning) {
+            System.out.println("Menu de Gestion de Clientes:");
+            System.out.println("1. Registrar Cliente");
+            System.out.println("2. Modificar Cliente");
+            System.out.println("3. Eliminar Cliente");
+            System.out.println("4. Consultar Clientes");
+            System.out.print("Seleccione una opcion: ");
+            String opcion = scanner.nextLine();
+            switch (opcion) {
+                case "1" -> {
+
+                    Random random = new Random();
+
+                    int ID = random.nextInt(1000); // Asignar un ID aleatorio
+                    System.out.print("Ingrese el nombre: ");
+                    String nombre = scanner.nextLine();
+                    System.out.print("Ingrese el correo: ");
+                    String correo = scanner.nextLine();
+                    System.out.print("Ingrese el telefono: ");
+                    String telefono = scanner.nextLine();
+                    System.out.print("Ingrese la direccion: ");
+                    String direccion = scanner.nextLine();
+                    System.out.print("Ingrese su sexo (M/F/NE): ");
+                    String sexoInput = scanner.nextLine();
+                    tipo_sexo sexo;
+                    if (sexoInput.equalsIgnoreCase("M")) {
+                        sexo = tipo_sexo.MASCULINO;
+                    } else if (sexoInput.equalsIgnoreCase("F")) {
+                        sexo = tipo_sexo.FEMENINO;
+                    } else {
+                        sexo = tipo_sexo.NOESPECIFICADO;
+                    }
+                    System.out.print("Ingrese su fecha de nacimiento (yyyy-mm-dd): ");
+                    String[] fechaNacimientoInput = scanner.nextLine().split("-");
+                    Calendar fechaNacimiento = Calendar.getInstance();
+                    fechaNacimiento.set(Integer.parseInt(fechaNacimientoInput[0]), Integer.parseInt(fechaNacimientoInput[1]) - 1, Integer.parseInt(fechaNacimientoInput[2]));
+
+                    // Asignar un casillero al cliente
+                    casillero casillero = new casillero();
+
+                if (!clientes.containsKey(ID)) {
+                    clientes.put(ID, new cliente(ID, nombre, correo, telefono, direccion, sexo, fechaNacimiento, casillero));
+                    System.out.println("Registro exitoso. Puede iniciar sesion ahora.");
+                } else {
+                    System.out.println("Cliente con ese ID ya existente");
+                }    
+            }        
+                case "2" -> {
+                    System.out.println("Ejecutando la opcion de Modificacion de Cliente");
+                    System.out.println("Ingrese el username del Cliente");
+                    String username = scanner.nextLine();
+                    if (!login.users.containsKey(username)) {
+                        System.out.println("Cliente inexistente");
+                    } else {
+                        usuario usuario = login.users.get(username);
+                        cliente cliente = usuario.getCliente();
+                        System.out.println("Qué deseas modificar?");
+                        System.out.println("1. Modificar Nombre");
+                        System.out.println("2. Modificar Correo");
+                        System.out.println("3. Modificar Telefono");
+                        System.out.println("4. Modificar Direccion");
+                        String opcion2 = scanner.nextLine();
+                        switch (opcion2) {
+                            case "1" -> {
+                                System.out.println("Ingrese el nuevo Nombre");
+                                String nuevoNombre = scanner.nextLine();
+                                cliente.setNombre(nuevoNombre);
+                            }
+                            case "2" -> {
+                                System.out.println("Ingrese el nuevo Correo");
+                                String nuevoCorreo = scanner.nextLine();
+                                cliente.setCorreo(nuevoCorreo);
+                            }
+                            case "3" -> {
+                                System.out.println("Ingrese el nuevo Telefono");
+                                String nuevoTelefono = scanner.nextLine();
+                                cliente.setTelefono(nuevoTelefono);
+                            }
+                            case "4" -> {
+                                System.out.println("Ingrese la nueva Direccion");
+                                String nuevoDireccion = scanner.nextLine();
+                                cliente.setDireccion(nuevoDireccion);
+                            }
+                        }
+                    }
+                }
+                case "3" -> {
+                    System.out.println("Ejecutando la opcion de Eliminacion del Cliente");
+                }
+                case "4" -> {
+                    System.out.println("Ejecutando la opcion de Consultar Cliente");
+                    System.out.println("Qué deseas Consultar?");
+                    System.out.println("1. Ver todos los Clientes");
+                    System.out.println("2. Buscar Cliente");
+                    System.out.println("3. Gestionar Articulos");
+                    String opcion2 = scanner.nextLine();
+                    switch (opcion2) {
+                        case "1" -> {
+                            login.mostrarUsuarios();
+                        }
+                        case "2" -> {
+                            System.out.println("Ingrese el username del cliente que desea consultar");
+                            String username = scanner.nextLine();
+                            login.mostrarInformacionClientePorId(username);
+                        }
+                        case "3" ->{
+
+                        }
+                    }
+                }
             }
         }
     }
